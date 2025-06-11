@@ -1,0 +1,27 @@
+name: Apply SQL Schema
+
+on:
+  push:
+    paths:
+      - 'schema.sql'
+  workflow_dispatch:
+
+jobs:
+  apply-schema:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install MySQL client
+        run: sudo apt-get install mysql-client -y
+
+      - name: Run schema on MySQL
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" < schema.sql
