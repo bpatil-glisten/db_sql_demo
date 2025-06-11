@@ -23,3 +23,9 @@ BEGIN
 END;
 
 SELECT 'Schema created successfully!' AS Message;
+
+SELECT name AS TableName
+FROM sys.tables
+WHERE type = 'U';
+
+
