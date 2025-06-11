@@ -1,16 +1,23 @@
-CREATE DATABASE IF NOT EXISTS CompanyDB;
-USE CompanyDB;
+-- Create the database (optional, based on context)
+CREATE DATABASE IF NOT EXISTS AccessDB;
+USE AccessDB;
 
-CREATE TABLE IF NOT EXISTS Employees (
-    EmployeeID INT PRIMARY KEY AUTO_INCREMENT,
-    FirstName VARCHAR(100) NOT NULL,
-    LastName VARCHAR(100) NOT NULL,
-    Email VARCHAR(150) UNIQUE NOT NULL,
-    Position VARCHAR(100),
-    HireDate DATE DEFAULT CURRENT_DATE
+-- Table: dbowner
+CREATE TABLE IF NOT EXISTS dbowner (
+    OwnerID INT PRIMARY KEY AUTO_INCREMENT,
+    Username VARCHAR(100) NOT NULL,
+    Email VARCHAR(150) NOT NULL,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO Employees (FirstName, LastName, Email, Position)
-VALUES
-('Alice', 'Smith', 'alice.smith@example.com', 'Developer'),
-('Bob', 'Johnson', 'bob.johnson@example.com', 'Manager');
+-- Table: dbreader
+CREATE TABLE IF NOT EXISTS dbreader (
+    ReaderID INT PRIMARY KEY AUTO_INCREMENT,
+    Username VARCHAR(100) NOT NULL,
+    Email VARCHAR(150) NOT NULL,
+    OwnerID INT,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (OwnerID) REFERENCES dbowner(OwnerID)
+        ON DELETE SET NULL
+);
+
