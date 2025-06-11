@@ -1,7 +1,3 @@
--- Create the database (optional, based on context)
-CREATE DATABASE IF NOT EXISTS AccessDB;
-USE AccessDB;
-
 -- Table: dbowner
 CREATE TABLE IF NOT EXISTS dbowner (
     OwnerID INT PRIMARY KEY AUTO_INCREMENT,
@@ -21,3 +17,4 @@ CREATE TABLE IF NOT EXISTS dbreader (
         ON DELETE SET NULL
 );
 
+SELECT 'Schema created successfully!' AS Message;
