@@ -1,20 +1,25 @@
 -- Table: dbowner
-CREATE TABLE IF NOT EXISTS dbowner (
-    OwnerID INT PRIMARY KEY AUTO_INCREMENT,
-    Username VARCHAR(100) NOT NULL,
-    Email VARCHAR(150) NOT NULL,
-    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
-);
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'dbowner')
+BEGIN
+    CREATE TABLE dbowner (
+        OwnerID INT PRIMARY KEY IDENTITY(1,1),
+        Username NVARCHAR(100) NOT NULL,
+        Email NVARCHAR(150) NOT NULL,
+        CreatedAt DATETIME DEFAULT GETDATE()
+    );
+END;
 
 -- Table: dbreader
-CREATE TABLE IF NOT EXISTS dbreader (
-    ReaderID INT PRIMARY KEY AUTO_INCREMENT,
-    Username VARCHAR(100) NOT NULL,
-    Email VARCHAR(150) NOT NULL,
-    OwnerID INT,
-    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (OwnerID) REFERENCES dbowner(OwnerID)
-        ON DELETE SET NULL
-);
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'dbreader')
+BEGIN
+    CREATE TABLE dbreader (
+        ReaderID INT PRIMARY KEY IDENTITY(1,1),
+        Username NVARCHAR(100) NOT NULL,
+        Email NVARCHAR(150) NOT NULL,
+        OwnerID INT,
+        CreatedAt DATETIME DEFAULT GETDATE(),
+        FOREIGN KEY (OwnerID) REFERENCES dbowner(OwnerID) ON DELETE SET NULL
+    );
+END;
 
 SELECT 'Schema created successfully!' AS Message;
